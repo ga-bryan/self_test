@@ -1,0 +1,159 @@
+{
+  "components": {
+    "reader_0": {
+      "module": "Reader",
+      "output": {
+        "data": [
+          "data"
+        ]
+      }
+    },
+    "dataio_0": {
+      "module": "DataIO",
+      "input": {
+        "data": {
+          "data": [
+            "reader_0.data"
+          ]
+        }
+      },
+      "output": {
+        "data": [
+          "data"
+        ],
+        "model": [
+          "model"
+        ]
+      }
+    },
+    "statistic_0": {
+      "input": {
+        "data": {
+          "data": [
+            "dataio_0.data"
+          ]
+        }
+      },
+      "module": "DataStatistics",
+      "output": {
+        "data": [
+          "data"
+        ],
+        "model": [
+          "model"
+        ]
+      }
+    },
+    "hetero_feature_binning_0": {
+      "input": {
+        "data": {
+          "data": [
+            "dataio_0.data"
+          ]
+        }
+      },
+      "module": "HeteroFeatureBinning",
+      "output": {
+        "data": [
+          "data"
+        ],
+        "model": [
+          "model"
+        ]
+      }
+    },
+    "hetero_feature_selection_0": {
+      "input": {
+        "data": {
+          "data": [
+            "dataio_0.data"
+          ]
+        },
+        "isometric_model": [
+          "hetero_feature_binning_0.model",
+          "statistic_0.model"
+        ]
+      },
+      "module": "HeteroFeatureSelection",
+      "output": {
+        "data": [
+          "data"
+        ],
+        "model": [
+          "model"
+        ]
+      }
+    },
+    "hetero_scale_0": {
+      "input": {
+        "data": {
+          "data": [
+            "hetero_feature_selection_0.data"
+          ]
+        }
+      },
+      "module": "FeatureScale",
+      "output": {
+        "data": [
+          "data"
+        ],
+        "model": [
+          "model"
+        ]
+      }
+    },
+    "hetero_data_split_0": {
+      "input": {
+        "data": {
+          "data": [
+            "hetero_scale_0.data"
+          ]
+        }
+      },
+      "module": "HeteroDataSplit",
+      "output": {
+        "data": [
+          "train_data",
+          "validate_data",
+          "test_data"
+        ]
+      }
+    },
+    "hetero_lr_0": {
+      "input": {
+        "data": {
+          "train_data": [
+            "hetero_data_split_0.train_data"
+          ],
+          "validate_data": [
+            "hetero_data_split_0.validate_data"
+          ]
+        }
+      },
+      "module": "HeteroLR",
+      "output": {
+        "data": [
+          "train"
+        ],
+        "model": [
+          "model"
+        ]
+      }
+    },
+    "evaluation_0": {
+      "input": {
+        "data": {
+          "data": [
+            "hetero_lr_0.train"
+          ]
+        }
+      },
+      "module": "Evaluation",
+      "output": {
+        "data": [
+          "data"
+        ]
+      }
+    }
+  }
+}

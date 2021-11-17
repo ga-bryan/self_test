@@ -1,0 +1,15 @@
+//demo.proto
+syntax = "proto3";
+package demo;
+service Demo {
+    rpc demo_func (demo_request) returns (demo_reply) {}
+}
+
+message demo_request {
+    string name = 1;
+    int32 age = 2;
+}
+message demo_reply {
+    string message = 1;
+    int32 salary = 2;
+}
