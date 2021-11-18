@@ -11,26 +11,21 @@ import sys
 from functools import lru_cache
 
 from loguru import logger
-from setting import LOG_LEVEL
-
-_format = (
-    '<g>{time:YYYY-MM-DD HH:mm:ss}</g> '
-    '| <level>{level: <8}</level> '
-    '| <e>{thread.name: <10}</e> '
-    '| <fg #CF55E8>{extra[utc]: <18}</fg #CF55E8>'
-    '| <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> '
-    '- <level>{message}</level>'
-)
+from setting import LOG_LEVEL, LOG_PATH
 
 logger.remove(0)  # 移除默认的handler
-# logger.add(sys.stderr, format=_format, level=LOG_LEVEL)
 logger.add(sys.stderr, format="{time} {level} {message}", level=LOG_LEVEL)
-logger.add("file_log.log")  # 指定文件路径
+logger.add(LOG_PATH, rotation="500 MB")  # 指定文件路径和文件大小上限
 
-# @lru_cache()
-# def practice_logger():
-#     pass
+
+@lru_cache(500)
+@logger.catch()
+def test():
+    # 保留500个此函数的计算结果
+    # 自动捕获异常到日志
+    return 1 / 0
 
 
 if __name__ == "__main__":
     logger.info("This is test")
+    test()
