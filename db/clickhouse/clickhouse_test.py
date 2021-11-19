@@ -11,12 +11,12 @@ from clickhouse_driver import Client
 host = "192.168.1.180"
 port = "8123"
 program = "9000"
-user = "default1"
+user = "default"
 passwd = ""
 engine = "MergeTree"
 
 if __name__ == "__main__":
-    table_name = "rrrrrr"
+    table_name = "rr"
     client = Client(host=host, port=program, user=user)
     # 删除表
     drop_table = "drop table dataaccess.dataaccess_test"
@@ -24,8 +24,12 @@ if __name__ == "__main__":
 
     # 创建表
     create_sql = "CREATE TABLE if not exists dataaccess.{}(`id` String, `x0` String, `x1` String," \
-                 " `x2` String, `x3` String) ENGINE = Memory".format(table_name)
+                 " `x2` String, `x3` String) ENGINE = MergeTree order by id primary key id".format(table_name)
     create_result = client.execute(create_sql)
+
+    show_create = "show create table dataaccess.{}".format(table_name)
+    show_create_result = client.execute(create_sql)
+    print(show_create_result)
 
     # 插入数据
     insert_sql = "insert into dataaccess.{}(id,x0,x1,x2,x3) values " \
@@ -34,11 +38,8 @@ if __name__ == "__main__":
     # client.execute(insert_sql)
 
     # 查询数据
-    try:
-        select_sql = "select count(*) from dataaccess.{}".format(table_name + "t")
-        t = client.execute(select_sql)
-    except Exception as e:
-        raise ValueError("Please check the database config is rightly!")
+    select_sql = "select count(*) from dataaccess.{}".format(table_name)
+    t = client.execute(select_sql)
 
     print(t)
     # 清空表

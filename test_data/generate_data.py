@@ -9,13 +9,15 @@
 import random
 import pandas as pd
 import os
-from utils.file_tools import get_project_base_path
+from loguru import logger
+import time
 
-data_path = os.path.join(get_project_base_path(), "test_data", "ten_million.csv")
+logger.add("log.log")
 
-columns = ["id", "x0", "x1", "x2", "x3"]
+root_path = os.path.dirname(os.path.abspath(__file__))
 
-result = [columns]
+dimension = 200
+columns = [["id"] + ["x{}".format(i) for i in range(dimension)]]
 
 
 def random_phone():
@@ -24,7 +26,28 @@ def random_phone():
     return random.choice(prelist) + "".join(random.choice("0123456789") for i in range(8))
 
 
-for id in range(10000000):
-    result.append([random_phone(), random.random(), random.random(), random.random(), random.random()])
-
-pd.DataFrame(result).to_csv(data_path, header=0, index=False)
+if __name__ == "__main__":
+    start_time = time.time()
+    for num in range(1, 11):
+        file_name = str(num) + ".csv"
+        path = os.path.join(root_path, file_name)
+        if os.path.exists(path):
+            logger.info("覆盖同名文件: {}".format(file_name))
+        logger.info("开始保存文件： {}".format(path))
+        pd.DataFrame(columns).to_csv(path, header=0, index=False)
+        batch_size = 0
+        data_count = 0
+        result = []
+        for id in range(num * 100000):
+            batch_size += 1
+            result.append([random_phone()] + [random.random()] * dimension)
+            if batch_size == 10000:
+                pd.DataFrame(result).to_csv(path, index=False, mode="a", header=False)
+                result.clear()
+                data_count += batch_size
+                logger.info("完成 {} 条".format(data_count))
+                batch_size = 0
+        if result:
+            pd.DataFrame(result).to_csv(path, header=False, index=False, mode="a")
+        logger.info("保存当前文件 {} 用时 {} ".format(file_name, time.time() - start_time))
+    print("总用时 {}".format(time.time() - start_time))
