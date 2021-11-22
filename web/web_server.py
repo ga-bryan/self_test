@@ -2,30 +2,28 @@
 # -*- coding: UTF-8 -*-
 """
 @author:  BryanGa
-@time:  2021/10/29
-@des:   文件的上传和下载
+@time:  2021/11/22
+@des:   
 """
-import os
 
-from flask import Flask, send_file, Response
-from requests_toolbelt import MultipartEncoder
+import os
+from flask import Flask, render_template, send_file
 from setting import PROJECT_PATH
 
 DATA_SOURCE = os.path.join(PROJECT_PATH, "test_data")
-# ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', "csv"])
-ALLOWED_EXTENSIONS = set(['json'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = DATA_SOURCE
 
 
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
-
 @app.route("/")
 def index():
-    return "HelloWord"
+    return render_template("rain_star.html")
+
+
+@app.route("/fireworks")
+def fireworks():
+    return render_template("fireworks.html")
 
 
 @app.route("/downloadFile", methods=["GET"])

@@ -12,7 +12,6 @@ from utils.file_tools import get_project_base_path
 
 # path
 PROJECT_PATH = get_project_base_path()
-
 DATA_PATH = os.path.join(get_project_base_path(), "test_data")
 
 # database
@@ -24,6 +23,8 @@ MYSQL_DB = "ppc"
 MYSQL_PORT = 3306
 
 # log
-
 LOG_PATH = os.path.join(PROJECT_PATH, "log", "log.log")
 LOG_LEVEL = "INFO"
+
+# file type
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', "csv"])
