@@ -40,7 +40,7 @@ if __name__ == "__main__":
         result = []
         for id in range(num * 100000):
             batch_size += 1
-            result.append([random_phone()] + [random.random()] * dimension)
+            result.append([random_phone()] + [random.random() for i in range(dimension)])
             if batch_size == 10000:
                 pd.DataFrame(result).to_csv(path, index=False, mode="a", header=False)
                 result.clear()
