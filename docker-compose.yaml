@@ -1,0 +1,36 @@
+version: "2.1"
+services:
+  server:
+    build:
+      context: $PWD
+      dockerfile: $PWD/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: always
+    volumes:
+      - ~/self_test/volumes:/self_test/volumes
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DB: dms
+      MYSQL_USER: root
+      MYSQL_PASS: 123456
+      TZ: Asia/Shanghai
+  mysql:
+    image: mysql:8.0.25
+    command: --init-file /data/application/init.sql --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./db/meta_data.sql:/data/application/init.sql
+    #      - ./persistence-mysql:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: 123456
+      TZ: Asia/Shanghai
+    healthcheck:
+      test: [ "CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$$MYSQL_ROOT_PASSWORD' ]
+      timeout: 20s
+      retries: 20

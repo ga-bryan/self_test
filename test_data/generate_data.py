@@ -16,8 +16,10 @@ logger.add("log.log")
 
 root_path = os.path.dirname(os.path.abspath(__file__))
 
-dimension = 200
+dimension = 100
 columns = [["id"] + ["x{}".format(i) for i in range(dimension)]]
+
+files_count = 2
 
 
 def random_phone():
@@ -28,7 +30,7 @@ def random_phone():
 
 if __name__ == "__main__":
     start_time = time.time()
-    for num in range(1, 11):
+    for num in range(1, files_count + 1):
         file_name = str(num) + ".csv"
         path = os.path.join(root_path, file_name)
         if os.path.exists(path):
@@ -38,7 +40,8 @@ if __name__ == "__main__":
         batch_size = 0
         data_count = 0
         result = []
-        for id in range(num * 100000):
+        for id in range(10000000):
+        # for id in range(num * 100000):
             batch_size += 1
             result.append([random_phone()] + [random.random() for i in range(dimension)])
             if batch_size == 10000:
