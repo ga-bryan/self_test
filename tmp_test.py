@@ -6,7 +6,6 @@
 @des:   临时
 """
 
-a = []
-a.append(1)
-a.append("1")
-print(a)
+if 1024 * 1024 * 8 < 65000000003:
+    print("tttt")
+    print(1024 * 1024 * 8)
