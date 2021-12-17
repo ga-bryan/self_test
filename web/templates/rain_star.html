@@ -2,6 +2,8 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="static/css/draw.css"/>
+
     <title>流星雨</title>
     <script>
         var context;
@@ -42,38 +44,7 @@
                 context.fillText(this.text, this.x, this.y);
             }
         }
-        // 创建一个月亮对象
-        var Moon = function (){
-            this.x = windowWidth * Math.random();//横坐标
-            this.y = 5000 * Math.random();//纵坐标
-            this.text = ".";//文本
-            this.color = "white";//颜色
-            this.getColor = function () {
-                var _r = Math.random();
-                if (_r < 0.5) {
-                    this.color = "#333";
-                } else {
-                    this.color = "white";
-                }
-            }
-            this.init = function () {
-                this.getColor();
-            }
-            //绘制
-            this.draw = function () {
-                context.fillStyle = this.color;
-                context.fillText(this.text, this.x, this.y);
-            }
-        }
 
-        //画月亮
-        function drawMoon() {
-            var moon = new Image();
-            moon.src = "moon.jpg"
-            // moon.src = "../../static/images/moon.jpg"
-            // context.drawImage(moon, -5, -10);
-            context.drawImage(moon, 0, 0);
-        }
 
         //页面加载的时候
         window.onload = function () {
@@ -92,7 +63,7 @@
                 rain.draw();
                 rains.push(rain);
             }
-            drawMoon();//绘制月亮
+
             playStars();//绘制闪动的星星
             playRains();//绘制流星
 
@@ -232,23 +203,7 @@
             height: 100%;
             overflow: hidden;
         }
-        .moon {
-        position: relative;
-        left:70%;
-        top:5%;
-        width: 200px;
-        height: 200px;
-        background: yellow;
-        border-radius: 50%;
-        box-shadow: 0 0 30px 0px yellow, 0 0 100px 0 white;
-        background-image: linear-gradient(
-            45deg,
-            lightyellow 0%,
-            yellow 90%,
-            yellow 100%
-        );
 
-    }
     </style>
 </head>
 <body>

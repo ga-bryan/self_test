@@ -7,10 +7,9 @@
 """
 import time
 import os
-
-import pytz
-from backports.zoneinfo import ZoneInfo
-from backports import zoneinfo
+# from zoneinfo import ZoneInfo
+from tzlocal import get_localzone
+from pytz import utc
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.triggers.interval import IntervalTrigger
@@ -19,42 +18,40 @@ from apscheduler.executors.pool import ThreadPoolExecutor
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 from apscheduler.events import EVENT_JOB_ERROR, EVENT_JOB_MISSED, EVENT_JOB_EXECUTED
 
-# TIME_ZONE = pytz.timezone('Asia/Beijing')
-TIME_ZONE = pytz.timezone('Asia/Shanghai')
-
-tzinfo = ZoneInfo("Europe/Minsk")
-tzinfo = zoneinfo("Europe/Minsk")
+# todo：如何设置时区，配置back调度方式
+# tzinfo = get_localzone()
+tzinfo = utc
 
 TRIGGER_DAY = IntervalTrigger(days=1)
 TRIGGER_TEST = IntervalTrigger(seconds=3)
 TRIGGER_TEST = IntervalTrigger(seconds=30)
 
-hour = 12
-minute = 40
+day = 15
+hour = 16
+minute = 5
 seconds = 5
-CRONTRIGGER_DAY = CronTrigger(hour=hour)  # 每天固定时间执行
-CRONTRIGGER_DAY = CronTrigger(hour=hour, timezone=tzinfo)  # 每天固定时间执行
-# CRONTRIGGER_MONTH = CronTrigger(hour=hour, minute=minute, timezone=tzinfo)  # 每天固定时间执行
-# CRONTRIGGER_QUARTERLY = CronTrigger(hour=hour, minute=minute, second=seconds, timezone=tzinfo)  # 每天固定时间执行
+# CRONTRIGGER_DAY = CronTrigger(hour=hour, minute=minute, second=seconds, timezone=tzinfo)  # 每天固定时间执行
+CRONTRIGGER_DAY = CronTrigger(hour=hour, minute=minute, second=seconds)  # 每天固定时间执行
+CRONTRIGGER_MONTH = CronTrigger(day=day, hour=hour, minute=minute, second=seconds, timezone=tzinfo)  # 每月时间执行
+CRONTRIGGER_QUARTERLY = CronTrigger(hour=hour, minute=minute, second=seconds, timezone=tzinfo)  # 每季度固定时间执行
 
 executors = {
     "default": ThreadPoolExecutor(20)
 }
-db_path = "/Users/bryanga/PycharmProjects/self_test/db/test_1.db"
-if os.path.exists(db_path):
-    os.remove(db_path)
+db_path = "/db/test_1.db"
 
 jobstores = {
     "default": SQLAlchemyJobStore(url="sqlite:////Users/bryanga/PycharmProjects/self_test/db/test_1.db")  # 数据库路径
 }
 
-scheduler = BackgroundScheduler(jobstores=jobstores, executors=executors)
-
-
-# scheduler = BlockingScheduler(jobstores=jobstores, executors=executors)
-
+job_defaults = {
+    'coalesce': False,
+    'max_instances': 3
+}
 
 def function_1():
+    with open("/Users/bryanga/PycharmProjects/self_test/db/test_1.txt", mode="w") as f:
+        f.write("---func1   ---")
     print("function_1 start time {}".format(time.time()))
     print("--------- function_1 ----------")
     # time.sleep(2)
@@ -64,6 +61,8 @@ def function_1():
 
 
 def function_2():
+    with open("/Users/bryanga/PycharmProjects/self_test/db/test_2.txt", mode="w") as f:
+        f.write("---func2    ---")
     print("function_2 start time {}".format(time.time()))
     print("--------- function_2 -----------")
     # todo: 添加时间条件检测
@@ -91,17 +90,19 @@ def listener(event):
         print(event.exception)
 
 
-scheduler.add_job(func=function_1, trigger=TRIGGER_TEST, time=TIME_ZONE, id="test_job_1")
-scheduler.add_job(func=function_2, trigger=TRIGGER_TEST, time=TIME_ZONE, id="test_job_2")
-# scheduler.add_job(func=function_1, trigger=TRIGGER_DAY, time=TIME_ZONE)
-# scheduler.add_job(func=function_2, trigger=TRIGGER_DAY, time=TIME_ZONE)
-# scheduler.add_job(func=function_3, trigger=TRIGGER_DAY, time=TIME_ZONE)
-# scheduler.add_job(func=function_1, trigger=CRONTRIGGER_DAY, id="t", time=TIME_ZONE)
-# scheduler.add_job(func=function_2, trigger=CRONTRIGGER_MONTH, id="tt", time=TIME_ZONE)
-# scheduler.add_job(func=function_3, trigger=CRONTRIGGER_QUARTERLY, id="ttt", time=TIME_ZONE)
-# scheduler.remove_job("ttt")
+def delete_db():
+    if os.path.exists(db_path):
+        os.remove(db_path)
 
-scheduler.add_listener(listener, EVENT_JOB_EXECUTED | EVENT_JOB_ERROR | EVENT_JOB_MISSED)
 
 if __name__ == "__main__":
+    delete_db()
+    scheduler = BackgroundScheduler(jobstores=jobstores, executors=executors, job_defaults=job_defaults)
+    # scheduler = BlockingScheduler(jobstores=jobstores, executors=executors)
+    scheduler.add_job(func=function_1, trigger=CRONTRIGGER_DAY, id="test_job_1")
+    scheduler.add_job(func=function_2, trigger=CRONTRIGGER_DAY, id="test_job_2")
+    # scheduler.remove_job("ttt")
+
+    scheduler.add_listener(listener, EVENT_JOB_EXECUTED | EVENT_JOB_ERROR | EVENT_JOB_MISSED)
     scheduler.start()
+    print('---tttt---')

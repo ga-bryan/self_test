@@ -1,0 +1,17 @@
+.moon {
+    position: relative;
+    left: 75%;
+    top: 5%;
+    width: 200px;
+    height: 200px;
+    background: yellow;
+    border-radius: 50%;
+    box-shadow: 0 0 30px 0px yellow, 0 0 100px 0 white;
+    background: linear-gradient(
+            45deg,
+            lightyellow 0%,
+            yellow 90%,
+            yellow 100%
+    );
+
+}
