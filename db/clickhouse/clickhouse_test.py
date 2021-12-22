@@ -6,18 +6,10 @@
 @des:   clickhouse数仓试验
 """
 
-from clickhouse_driver import Client
-
-host = "192.168.1.180"
-port = "8123"
-program = "9000"
-user = "default"
-passwd = ""
-engine = "MergeTree"
+from click_house_setting import client
 
 if __name__ == "__main__":
     table_name = "0aaaaaaa"
-    client = Client(host=host, port=program, user=user)
     # 删除表
     drop_table = "drop table dataaccess.{}".format(table_name)
     # client.execute(drop_table)
@@ -45,4 +37,4 @@ if __name__ == "__main__":
     # 清空表
     truncate_sql = "truncate table dataaccess.{}".format(table_name)
     # client.execute(truncate_sql)
-    id = 'sd7q36476347382'
+    # client.close()

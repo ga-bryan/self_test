@@ -6,8 +6,9 @@
 @des:   账单数据源配置
 """
 
-
 # todo：配置数据库
+connector = None
+
 
 class Base:
     def __init__(self, table, connector):
@@ -30,12 +31,14 @@ class Base:
     @classmethod
     def calculate_by_month(cls, info):
         # todo:计算公式
+        # todo：查询当前月份的前面所有统计值
         result = 0
         return result
 
     @classmethod
     def calculate_by_quarter(cls, info):
         # todo:计算公式
+        # todo：查询当前季度的前面所有统计值
         result = 0
         return result
 
