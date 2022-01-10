@@ -7,10 +7,8 @@
 """
 
 import random
-import pandas as pd
 import os
 from loguru import logger
-import time
 
 logger.add("log.log")
 

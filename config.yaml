@@ -4,4 +4,9 @@ mysql:
   user: root
   pass: 123456
   db: learn_python
-
+redis:
+  host: 172.16.0.150
+  port: 30062
+  user: ""
+  pass: ""
+  db: 0

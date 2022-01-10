@@ -1,0 +1,63 @@
+{
+  "dsl_version": 2,
+  "initiator": {
+    "role": "guest",
+    "party_id": 9999
+  },
+  "role": {
+    "host": [
+      10000
+    ],
+    "guest": [
+      9999
+    ]
+  },
+  "job_parameters": {
+    "common": {
+      "backend": 0,
+      "work_mode": 1
+    }
+  },
+  "component_parameters": {
+    "role": {
+      "guest": {
+        "0": {
+          "reader_0": {
+            "table": {
+              "name": "tmp",
+              "namespace": "tmp"
+            }
+          },
+          "dataio_0": {
+            "with_label": false,
+            "label_type": "float",
+            "output_format": "dense"
+          },
+          "intersect_0": {
+            "intersect_method": "rsa",
+            "sync_intersect_ids": true,
+            "only_output_key": false
+          }
+        }
+      },
+      "host": {
+        "0": {
+          "reader_0": {
+            "table": {
+              "name": "tmp",
+              "namespace": "tmp"
+            }
+          },
+          "dataio_0": {
+            "with_label": false
+          },
+          "intersect_0": {
+            "intersect_method": "rsa",
+            "sync_intersect_ids": true,
+            "only_output_key": false
+          }
+        }
+      }
+    }
+  }
+}

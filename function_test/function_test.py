@@ -8,7 +8,7 @@
 
 import os
 import importlib
-from utils.file_tools import get_project_base_path
+from utils.file_utils import get_project_base_path
 
 PROJECT_PATH = get_project_base_path()
 

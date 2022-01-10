@@ -1,0 +1,74 @@
+{
+  "dsl_version": 2,
+  "initiator": {
+    "role": "guest",
+    "party_id": 9999
+  },
+  "role": {
+    "host": [
+      9998
+    ],
+    "guest": [
+      9999
+    ]
+  },
+  "job_parameters": {
+    "common": {
+      "job_type": "train",
+      "backend": 0,
+      "work_mode": 1
+    }
+  },
+  "component_parameters": {
+    "role": {
+      "guest": {
+        "0": {
+          "reader_0": {
+            "table": {
+              "name": "train_y",
+              "namespace": "experiment"
+            }
+          },
+          "dataio_0": {
+            "with_label": true,
+            "label_type": "float",
+            "output_format": "dense"
+          },
+          "reader_1": {
+            "table": {
+              "name": "test_y",
+              "namespace": "experiment"
+            }
+          },
+          "dataio_1": {
+            "with_label": true,
+            "label_type": "float",
+            "output_format": "dense"
+          }
+        }
+      },
+      "host": {
+        "0": {
+          "reader_0": {
+            "table": {
+              "name": "train",
+              "namespace": "experiment"
+            }
+          },
+          "dataio_0": {
+            "with_label": false
+          },
+          "reader_1": {
+            "table": {
+              "name": "test",
+              "namespace": "experiment"
+            }
+          },
+          "dataio_1": {
+            "with_label": false
+          }
+        }
+      }
+    }
+  }
+}

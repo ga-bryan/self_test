@@ -8,10 +8,12 @@
 
 import time
 import threading
+import os
 
 
 class Singleton(object):
     _instance_lock = threading.Lock()
+    _instance = {}
 
     def __init__(self):
         time.sleep(1)
@@ -22,6 +24,19 @@ class Singleton(object):
             if not hasattr(Singleton, "_instance"):
                 Singleton._instance = Singleton(*args, **kwargs)
         return Singleton._instance
+
+
+def singleton(cls, *args, **kw):
+    """ 单例模式装饰器 """
+    instances = {}
+
+    def _singleton():
+        key = str(cls) + str(os.getpid())
+        if key not in instances:
+            instances[key] = cls(*args, **kw)
+        return instances[key]
+
+    return _singleton
 
 
 class IdCounter:

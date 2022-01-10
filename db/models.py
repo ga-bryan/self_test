@@ -14,13 +14,8 @@ from peewee import (SQL, BigAutoField, CharField, DateTimeField, IntegerField,
 
 from peewee import MySQLDatabase
 
-from setting import MYSQL_HOST, MYSQL_PORT, MYSQL_USER
-from utils.db_connect import MYSQL_DB
-
-
-def MYSQL_PASS(args):
-    pass
-
+from setting import MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD
+from utils.db_connect_utils import MYSQL_DB
 
 DB = MySQLDatabase(
     MYSQL_DB,
@@ -31,7 +26,7 @@ DB = MySQLDatabase(
         'host': MYSQL_HOST,
         'port': MYSQL_PORT,
         'user': MYSQL_USER,
-        'password': MYSQL_PASS,
+        'password': MYSQL_PASSWORD,
     }
 )
 

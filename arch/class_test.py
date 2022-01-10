@@ -19,6 +19,9 @@ class People(abc.ABC):
     def info(self) -> str:
         return ""
 
+    def to_dict(self) -> dict:
+        pass
+
 
 class Person(People):
 
@@ -30,6 +33,12 @@ class Person(People):
         return "name: {}\n" \
                "age: {}\n" \
                "phone: {}\n".format(self.name, self.age, self.phone)
+
+    def to_dict(self) -> dict:
+        d = {}
+        for k, v in self.__dict__.items():
+            d[k] = v
+        return d
 
 
 class Student(Person):
@@ -47,6 +56,7 @@ class Student(Person):
 if __name__ == "__main__":
     p = Person("cjj", "25", "1111111")
     p_info = p.info()
+    d_ = p.to_dict()
     print(p_info)
     stu = Student("cjj", "25", "1111111", "岫岩高中")
     stu_info = stu.info()
