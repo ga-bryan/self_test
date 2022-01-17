@@ -18,4 +18,7 @@ def get_project_base_directory(project_base=None):
     return PROJECT_BASE
 
 
-# print(os.pardir)
+def check_path(path, mkdir=True):
+    if not os.path.exists(path):
+        if mkdir:
+            os.makedirs(path)

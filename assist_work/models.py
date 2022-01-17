@@ -7,7 +7,8 @@
 """
 
 from setting import MYSQL_DB, MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD
-from peewee import MySQLDatabase, Model
+from peewee import MySQLDatabase, Model, FloatField, IntegerField, DateTimeField, CharField, BigIntegerField, SQL, \
+    DateField, BigAutoField
 
 DB = MySQLDatabase(
     MYSQL_DB,
@@ -23,7 +24,7 @@ DB = MySQLDatabase(
 )
 
 
-class Base(Model):
+class BaseModel(Model):
     class Meta:
         database = DB
 
@@ -54,7 +55,30 @@ class Base(Model):
         return result
 
 
-class DataSource(Base):
+class HostBill(BaseModel):
+    auto_cost = FloatField(null=True)
+    call_count = IntegerField(null=True)
+    call_type = IntegerField(null=True)
+    cost_type = IntegerField(null=True)
+    created_at = DateTimeField(constraints=[SQL("DEFAULT CURRENT_TIMESTAMP")])
+    data_code = CharField(null=True)
+    data_id = BigIntegerField()
+    data_version = CharField(null=True)
+    data_version_id = BigIntegerField(null=True)
+    date = DateField(null=True)
+    edit_cost = FloatField(null=True)
+    error_count = IntegerField(null=True)
+    hit_count = IntegerField(null=True)
+    id = BigAutoField()
+    partner_id = BigIntegerField()
+    partner_name = CharField(null=True)
+    updated_at = DateTimeField(constraints=[SQL("DEFAULT CURRENT_TIMESTAMP")])
+
+    class Meta:
+        table_name = 'host_bill'
+
+
+class DataSource(HostBill):
     class Meta:
         table_name = ""
 
@@ -63,7 +87,7 @@ class DataSource(Base):
         pass
 
 
-class DataApply(Base):
+class DataApply(BaseModel):
     class Meta:
         table_name = ""
 

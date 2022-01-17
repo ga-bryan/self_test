@@ -27,6 +27,7 @@ def random_phone():
                "153", "155", "156", "157", "158", "159", "186", "187", "188"]
     return random.choice(prelist) + "".join(random.choice("0123456789") for i in range(8))
 
+
 while 1:
     print(random.randint(0, 1))
 

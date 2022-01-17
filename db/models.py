@@ -17,6 +17,14 @@ from peewee import MySQLDatabase
 from setting import MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD
 from utils.db_connect_utils import MYSQL_DB
 
+"""
+自动导出表结构为peewee对象
+python -m pwiz -e mysql -H 192.168.1.180 -p 3306 -u fate -P  -t dms_dataset,dms_dataset_version,dms_dataset_version_stat,dms_job fate_flow > db/model.py
+需要改成JSONField
+connect_info
+run_time_config
+"""
+
 DB = MySQLDatabase(
     MYSQL_DB,
     **{

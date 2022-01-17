@@ -18,6 +18,7 @@ from apps.send_file_app import app as send_file_app
 from apps.send_data_app import app as send_data_app
 from apps.show_app import app as show_app
 from apps.index_app import app as index_app
+from apps.fraudulant_gold_flower import app as flower_app
 
 from setting import SERVING_HOST, PORT, ONE_DAY_IN_SECONDS
 
@@ -35,6 +36,7 @@ if __name__ == "__main__":
             "/file": send_file_app,
             "/data": send_data_app,
             "/show": show_app,
+            "/flower": flower_app,
             "": index_app
         }
     )

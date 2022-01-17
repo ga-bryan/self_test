@@ -3,7 +3,7 @@
 """
 @author:  BryanGa
 @time:  2022/01/06
-@des:   
+@des:   csv文件拆分
 """
 
 import pandas as pd
