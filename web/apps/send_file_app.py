@@ -11,7 +11,7 @@ import pandas as pd
 from flask import Flask, request, send_file
 import os
 import random
-from setting import PROJECT_PATH, SERVING_HOST
+from setting import PROJECT_PATH, SERVING_HOST, PORT
 
 from utils.core_utils import generate_tmp_table_name
 from utils.api_utils import json_response
@@ -72,7 +72,7 @@ def download_data():
 def batch_compute():
     import time
     request_config = request.form.to_dict()
-    time.sleep(30)
+    # time.sleep(30)
     check_path(os.path.join(PROJECT_PATH, "test_data", "send"))
     check_path(os.path.join(PROJECT_PATH, "test_data", "receive"))
     dimension = 10
@@ -91,7 +91,7 @@ def batch_compute():
         axis=1)
     result_df.to_csv(result_path, index=0)
     stat_time = request_config.get("stat_time")
-    config = {"url": "http://192.168.1.88:8080/file/uploadFile", "filename": file_name,
+    config = {"url": "http://{}:{}/file/uploadFile".format(SERVING_HOST, PORT), "filename": file_name,
               "stat_time": stat_time}
     return json_response(data=config)
 

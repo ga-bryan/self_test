@@ -18,13 +18,16 @@ def send_json():
     return json_response()
 
 
-@app.route("/online")
+@app.route("/online", methods=["POST"])
 def data_on_line():
     dimension = 10
-    config = request.json
+    config = request.json or request.args.to_dict()
     data = config.get("data")
-    result = []
+    result = [["id"] + ["x{}".format(i) for i in range(dimension)]]
+    if not data:
+        return json_response()
     for d in data:
-        result.append([d] + [random.random() for i in range(dimension)])
+
+        result.append([str(d).strip()] + [str(random.random()) for i in range(dimension)])
 
     return json_response(data={"data": result})

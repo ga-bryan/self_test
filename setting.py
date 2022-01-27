@@ -35,4 +35,4 @@ _CONFIG_FILE = "/Users/bryanga/PycharmProjects/self_test/config.yaml"
 
 
 SERVING_HOST = "0.0.0.0"
-PORT = 8080
+PORT = 8088
