@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS dms_dataset
     `is_deleted` tinyint     NOT NULL DEFAULT 0 COMMENT '是否删除 0：不删除，1：删除',
     `created_at` datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
-    INDEX(name)
+    INDEX (name)
 );
 
 CREATE TABLE IF NOT EXISTS dms_dataset_version
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS dms_dataset_version
     `is_deleted`    tinyint     NOT NULL DEFAULT 0 COMMENT '是否删除 0：不删除，1：删除',
     `created_at`    datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at`    datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    INDEX(dataset_id, version)
+    INDEX (dataset_id, version)
 );
 
 CREATE TABLE IF NOT EXISTS dms_dataset_version_stat
@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS dms_dataset_version_stat
     `stat_time`   int         NOT NULL COMMENT '回溯时间',
     `table_name`  varchar(64) NOT NULL COMMENT '数仓表名',
     `import_type` varchar(32) NOT NULL COMMENT '导入类型 LOCAL,FTP,HTTP,HIVE,CLICKHOUSE',
+    `data_type`   tinyint     NOT NULL COMMENT '数据类型 0：数据源,1：SDN应用方,2：DPPC应用方',
     `data_count`  int         NOT NULL COMMENT '数据总数',
     `is_deleted`  tinyint     NOT NULL DEFAULT 0 COMMENT '是否删除 0：不删除，1：删除',
     `created_at`  datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

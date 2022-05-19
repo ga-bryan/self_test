@@ -6,11 +6,8 @@
 @des:   python内置函数的实验
 """
 
-import os
 import importlib
-from utils.file_utils import get_project_base_path
-
-PROJECT_PATH = get_project_base_path()
+import tempfile
 
 
 def setattr_test(obj, key, value):
@@ -32,5 +29,21 @@ def import_module_test():
     t = getattr_test(m, "calculate")(1, 2)  # 引用对应文件下的'calculate'
 
 
+def tmp_file():
+    fp = tempfile.TemporaryFile()
+    t = {"test": {"test": "value"}}
+    fp.write(str(t).encode())
+    fp.seek(0)
+    s = fp.read()
+    fp.close()  # close之后，文件将被删除
+    with tempfile.TemporaryFile() as f:
+        f.write(b'hello world')
+        # f.seek(0)
+        m = f.read()
+        return
+    return
+
+
 if __name__ == "__main__":
-    import_module_test()
+    # import_module_test()
+    tmp_file()

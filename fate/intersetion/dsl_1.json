@@ -1,0 +1,45 @@
+{
+  "components": {
+    "reader_0": {
+      "output": {
+        "data": [
+          "data"
+        ]
+      },
+      "module": "Reader"
+    },
+    "intersection_0": {
+      "output": {
+        "data": [
+          "data"
+        ]
+      },
+      "input": {
+        "data": {
+          "data": [
+            "dataio_0.data"
+          ]
+        }
+      },
+      "module": "Intersection"
+    },
+    "dataio_0": {
+      "output": {
+        "data": [
+          "data"
+        ],
+        "model": [
+          "model"
+        ]
+      },
+      "input": {
+        "data": {
+          "data": [
+            "reader_0.data"
+          ]
+        }
+      },
+      "module": "DataIO"
+    }
+  }
+}
